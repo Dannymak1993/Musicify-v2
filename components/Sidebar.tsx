@@ -34,7 +34,8 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
 
   return (
     <div className="flex h-full">
-      <div className="
+      <div
+        className="
       hidden 
       md:flex
       flex-col
@@ -43,11 +44,18 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
       h-full
       w-[300px]
       p-2
-      ">
-    <Box>
-        Sidebar Navigation
-    </Box>
-
+      "
+      >
+        <Box>
+          <div className="flex flex-col gap-y-4 px-5 py-4">
+            {routes.map((item) => (
+              <SidebarItem 
+              key={item.label} 
+              {...item} />
+            ))}
+          </div>
+        </Box>
+        <Box className="overflow-y-auto h-full">Song Library</Box>
       </div>
     </div>
   );

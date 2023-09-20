@@ -15,7 +15,7 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ children, className }) => {
   const router = useRouter();
-  
+
   const handleLogout = async () => {
     //handle logout in future
   };
@@ -102,15 +102,26 @@ const Header: React.FC<HeaderProps> = ({ children, className }) => {
         <div className="flex justify-between items-center gap-x-4">
           <>
             <div>
-              <Button>
+              <Button
+                onClick={() => {}}
+                className="
+                    bg-transparent 
+                    text-neutral-300 
+                    font-medium
+                  "
+              >
                 Sign up
               </Button>
-              </div>
+              <Button onClick={() => {}} className="bg-white px-6 py-2">
+                Log in
+              </Button>
+            </div>
           </>
         </div>
       </div>
+      {children}
     </div>
   );
-};
+}
 
 export default Header;

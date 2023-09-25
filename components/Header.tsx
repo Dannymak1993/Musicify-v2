@@ -117,6 +117,9 @@ const Header: React.FC<HeaderProps> = ({
           </button>
         </div>
         <div className="flex justify-between items-center gap-x-4">
+          {user ? (
+            <div> Logged in</div>
+          ) : (
           <>
             <div>
               <Button
@@ -143,6 +146,7 @@ const Header: React.FC<HeaderProps> = ({
               </Button>
             </div>
           </>
+          )}
         </div>
       </div>
       {children}

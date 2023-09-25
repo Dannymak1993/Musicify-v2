@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { HiHome } from "react-icons/hi";
 import { BiSearch } from "react-icons/bi";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
+import { FaUserAlt } from "react-icons/fa";
 
 import useAuthModal from "@/hooks/useAuthModal";
 import { useUser } from "@/hooks/useUser";
@@ -118,34 +119,44 @@ const Header: React.FC<HeaderProps> = ({
         </div>
         <div className="flex justify-between items-center gap-x-4">
           {user ? (
-            <div> Logged in</div>
-          ) : (
-          <>
-            <div>
+            <div className="flex gap-x-4 items-center">
+              <Button onClick={handleLogout} className="bg-white px-6 py-2">
+                Logout
+              </Button>
               <Button
-                onClick={authModal.onOpen}
-                className="
+                onClick={() => router.push("/account")}
+                className="bg-white"
+              >
+                <FaUserAlt />
+              </Button>
+            </div>
+          ) : (
+            <>
+              <div>
+                <Button
+                  onClick={authModal.onOpen}
+                  className="
                     bg-transparent 
                     text-neutral-300 
                     font-medium
                   "
-              >
-                Sign up
-              </Button>
-            </div>
-            <div>
-              <Button 
-              onClick={authModal.onOpen} 
-              className="
+                >
+                  Sign up
+                </Button>
+              </div>
+              <div>
+                <Button
+                  onClick={authModal.onOpen}
+                  className="
               bg-white 
               px-6 
               py-2
               "
-              >
-                Log in
-              </Button>
-            </div>
-          </>
+                >
+                  Log in
+                </Button>
+              </div>
+            </>
           )}
         </div>
       </div>

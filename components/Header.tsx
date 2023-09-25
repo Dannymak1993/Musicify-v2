@@ -5,6 +5,10 @@ import { RxCaretLeft, RxCaretRight } from "react-icons/rx";
 import { useRouter } from "next/navigation";
 import { HiHome } from "react-icons/hi";
 import { BiSearch } from "react-icons/bi";
+import { useSupabaseClient } from "@supabase/auth-helpers-react";
+
+import useAuthModal from "@/hooks/useAuthModal";
+import { useUser } from "@/hooks/useUser";
 
 import Button from "./Button";
 
@@ -13,8 +17,15 @@ interface HeaderProps {
   className?: string;
 }
 
-const Header: React.FC<HeaderProps> = ({ children, className }) => {
+const Header: React.FC<HeaderProps> = ({ 
+  children, 
+  className 
+}) => {
+  const authModal = useAuthModal();
   const router = useRouter();
+
+  const supabaseClient = useSupabaseClient();
+  const { user } = useUser();
 
   const handleLogout = async () => {
     //handle logout in future
@@ -103,7 +114,7 @@ const Header: React.FC<HeaderProps> = ({ children, className }) => {
           <>
             <div>
               <Button
-                onClick={() => {}}
+                onClick={authModal.onOpen}
                 className="
                     bg-transparent 
                     text-neutral-300 
@@ -114,7 +125,14 @@ const Header: React.FC<HeaderProps> = ({ children, className }) => {
               </Button>
             </div>
             <div>
-              <Button onClick={() => {}} className="bg-white px-6 py-2">
+              <Button 
+              onClick={authModal.onOpen} 
+              className="
+              bg-white 
+              px-6 
+              py-2
+              "
+              >
                 Log in
               </Button>
             </div>

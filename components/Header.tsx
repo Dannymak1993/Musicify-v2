@@ -28,8 +28,14 @@ const Header: React.FC<HeaderProps> = ({
   const { user } = useUser();
 
   const handleLogout = async () => {
-    //handle logout in future
-  };
+   const { error } = await supabaseClient.auth.signOut();
+   // reset any playing songs
+   router.refresh();
+
+  if (error) {
+    console.log(error);
+    }
+  }
 
   return (
     <div

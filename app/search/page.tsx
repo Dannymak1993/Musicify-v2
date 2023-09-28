@@ -2,6 +2,8 @@ import getSongsByTitle from "@/actions/getSongsByTitle";
 import SearchInput from "@/components/SearchInput";
 import Header from "@/components/Header";
 
+import SearchContent from "./components/SearchContent";
+
 export const revalidate = 0;
 
 interface SearchProps {

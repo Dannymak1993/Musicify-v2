@@ -12,6 +12,7 @@ import usePlayer from "@/hooks/usePlayer";
 import LikeButton from "./LikeButton";
 import MediaItem from "./MediaItem";
 import Slider from "./Slider";
+import SongSeeker from './SongSeeker';
 
 interface PlayerContentProps {
   song: Song;

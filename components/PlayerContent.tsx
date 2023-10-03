@@ -12,7 +12,7 @@ import usePlayer from "@/hooks/usePlayer";
 import LikeButton from "./LikeButton";
 import MediaItem from "./MediaItem";
 import Slider from "./Slider";
-import SongSeeker from './SongSeeker';
+import SongSeeker from "./SongSeeker";
 
 interface PlayerContentProps {
   song: Song;
@@ -23,6 +23,7 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
   const player = usePlayer();
   const [volume, setVolume] = useState(1);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [progress, setProgress] = useState(0);
 
   const Icon = isPlaying ? BsPauseFill : BsPlayFill;
   const VolumeIcon = volume === 0 ? HiSpeakerXMark : HiSpeakerWave;
@@ -78,10 +79,16 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
 
   const handlePlay = () => {
     if (!isPlaying) {
-      play();
+      play({ position: progress });
     } else {
       pause();
     }
+  };
+
+  const handleSongSeek = (value: number[]) => {
+    const firstValue = value[0]; 
+    setProgress(firstValue);
+    sound?.seek(firstValue);
   };
 
   const toggleMute = () => {
@@ -177,6 +184,9 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
               transition
             "
         />
+        <SongSeeker 
+        value={progress} 
+        onChange={handleSongSeek} />
       </div>
 
       <div className="hidden md:flex w-full justify-end pr-2">

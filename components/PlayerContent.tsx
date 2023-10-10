@@ -21,7 +21,8 @@ interface PlayerContentProps {
 
 const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
   const player = usePlayer();
-  const [volume, setVolume] = useState(1);
+  const volume = player.volume;
+  const setVolume = player.setVolume;
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
 
@@ -91,13 +92,16 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
     sound?.seek(firstValue);
   };
 
-  const toggleMute = () => {
-    if (volume === 0) {
-      setVolume(1);
-    } else {
-      setVolume(0);
-    }
-  };
+  const [currentVolume, setCurrentVolume] = useState(volume);
+
+   const toggleMute = () => {
+     if (volume === 0) {
+       setVolume(currentVolume); // Unmute: Set volume to the last saved value
+     } else {
+       setCurrentVolume(volume); // Save the current volume before muting
+       setVolume(0); // Mute
+     }
+   };
 
   return (
     <div className="grid grid-cols-2 md:grid-cols-3 h-full">

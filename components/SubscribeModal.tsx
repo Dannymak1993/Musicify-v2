@@ -26,20 +26,15 @@ const formatPrice = (price: Price) => {
   return priceString;
 };
 
-const SubscribeModal: React.FC<SubscribeModalProps> = ({ products }) => {
-  const subscribeModal = useSubscribeModal();
+const SubscribeModal: React.FC<SubscribeModalProps> = ({ 
+    products 
+}) => {
   const { user, isLoading, subscription } = useUser();
-
   const [priceIdLoading, setPriceIdLoading] = useState<string>();
-
-  const onChange = (open: boolean) => {
-    if (!open) {
-      subscribeModal.onClose();
-    }
-  };
 
   const handleCheckout = async (price: Price) => {
     setPriceIdLoading(price.id);
+
     if (!user) {
       setPriceIdLoading(undefined);
       return toast.error("Must be logged in");
@@ -98,8 +93,8 @@ const SubscribeModal: React.FC<SubscribeModalProps> = ({ products }) => {
     <Modal
       title="Only for premium users"
       description="Listen to music with Spotify Premium"
-      isOpen={subscribeModal.isOpen}
-      onChange={onChange}
+      isOpen
+      onChange={() => {}}
     >
       {content}
     </Modal>

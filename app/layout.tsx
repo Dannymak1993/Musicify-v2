@@ -1,6 +1,7 @@
 import Sidebar from "@/components/Sidebar";
 import "./globals.css";
 import { Figtree } from "next/font/google";
+import getActiveProductsWithPrices from "@/actions/getActiveProductsWithPrices";
 import UserProvider from "@/providers/UserProvider";
 import SupabaseProvider from "@/providers/SupabaseProvider";
 import ModalProvider from "@/providers/ModalProvider";

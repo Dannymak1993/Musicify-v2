@@ -1,6 +1,5 @@
 import Stripe from 'stripe';
 import { NextResponse } from 'next/server';
-import { headers } from 'next/headers';
 
 import { stripe } from '@/libs/stripe';
 import {
@@ -9,35 +8,33 @@ import {
   manageSubscriptionStatusChange
 } from '@/libs/supabaseAdmin';
 
-const relevantEvents = new Set([
-  'product.created',
-  'product.updated',
-  'price.created',
-  'price.updated',
-  'checkout.session.completed',
-  'customer.subscription.created',
-  'customer.subscription.updated',
-  'customer.subscription.deleted'
-]);
+export default async function webhookHandler(request: Request) {
+  const body = await request.text();
+  const sig = request.headers.get('Stripe-Signature');
 
-export async function POST(
-  request: Request
-) {
-    const body = await request.text()
-    const sig = headers().get('Stripe-Signature');
+  const webhookSecret =
+    process.env.STRIPE_WEBHOOK_SECRET_LIVE ||
+    process.env.STRIPE_WEBHOOK_SECRET;
+  let event: Stripe.Event;
 
-    const webhookSecret =
-      process.env.STRIPE_WEBHOOK_SECRET_LIVE ??
-      process.env.STRIPE_WEBHOOK_SECRET;
-    let event: Stripe.Event;
+  try {
+    if (!sig || !webhookSecret) throw new Error('Invalid webhook signature');
+    event = stripe.webhooks.constructEvent(body, sig, webhookSecret);
+  } catch (err: any) {
+    console.log(`❌ Error message: ${err.message}`);
+    return new NextResponse(`Webhook Error: ${err.message}`, { status: 400 });
+  }
 
-    try {
-      if (!sig || !webhookSecret) return;
-      event = stripe.webhooks.constructEvent(body, sig, webhookSecret);
-    } catch (err: any) {
-      console.log(`❌ Error message: ${err.message}`);
-      return new NextResponse(`Webhook Error: ${err.message}`, { status: 400 });
-    }
+  const relevantEvents = new Set([
+    'product.created',
+    'product.updated',
+    'price.created',
+    'price.updated',
+    'checkout.session.completed',
+    'customer.subscription.created',
+    'customer.subscription.updated',
+    'customer.subscription.deleted'
+  ]);
 
   if (relevantEvents.has(event.type)) {
     try {
@@ -81,5 +78,5 @@ export async function POST(
     }
   }
 
-  return NextResponse.json({ received: true }, { status: 200 });
-};
+  return new NextResponse(JSON.stringify({ received: true }), { status: 200 });
+}

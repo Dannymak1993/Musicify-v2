@@ -12,11 +12,11 @@ import usePlayer from "@/hooks/usePlayer";
 import LikeButton from "./LikeButton";
 import MediaItem from "./MediaItem";
 import Slider from "./Slider";
-import SongSeeker from "./SongSeeker";
 
 interface PlayerContentProps {
   song: Song;
   songUrl: string;
+  duration: number;
 }
 
 const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
@@ -24,7 +24,6 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
   const volume = player.volume;
   const setVolume = player.setVolume;
   const [isPlaying, setIsPlaying] = useState(false);
-  const [progress, setProgress] = useState(0);
 
   const Icon = isPlaying ? BsPauseFill : BsPlayFill;
   const VolumeIcon = volume === 0 ? HiSpeakerXMark : HiSpeakerWave;
@@ -80,26 +79,20 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
 
   const handlePlay = () => {
     if (!isPlaying) {
-      play({ position: progress });
+      play();
     } else {
       pause();
     }
-  };
-
-  const handleSongSeek = (value: number[]) => {
-    const firstValue = value[0]; 
-    setProgress(firstValue);
-    sound?.seek(firstValue);
   };
 
   const [currentVolume, setCurrentVolume] = useState(volume);
 
    const toggleMute = () => {
      if (volume === 0) {
-       setVolume(currentVolume); // Unmute: Set volume to the last saved value
+       setVolume(currentVolume);
      } else {
-       setCurrentVolume(volume); // Save the current volume before muting
-       setVolume(0); // Mute
+       setCurrentVolume(volume); 
+       setVolume(0);
      }
    };
 
@@ -188,9 +181,6 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
               transition
             "
         />
-        <SongSeeker 
-        value={progress} 
-        onChange={handleSongSeek} />
       </div>
 
       <div className="hidden md:flex w-full justify-end pr-2">

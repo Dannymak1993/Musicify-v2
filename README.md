@@ -1,36 +1,53 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Musicify
 
-## Getting Started
+  ##  Table of Contents 
+   - [Description](#desc) 
+   - [Installation](#ins)
+   - [Usage](#use)
+   - [Contribution Guidlines](#con) 
+   - [Test Instructions](#test)
+   - [Frameworks and resources](#frame)
+   - [Questions/Contact](#ques)
+   - [License](#license) 
+  
+  # Description <a id="desc"></a>
+  Musicify is a spotify-esque application built with Next.Js, React,js using Tailwind CSS, Stripe integration for payments and Supabase/PostgreSQL as the database. 
+  
+  # Installation <a id="ins"></a>
+  No installation required; visit the website, create an account and subscribe to the musicify premium plan to begin adding songs or listening to the music available. NOTE: please use a real email to signup as a link will be sent that requires verification. When subscribing to musicify's premium plan for $9 please use the card number 4242 4242 4242 4242 and fill out the remaining fields with fake info as that will allow you to bypass putting in a legitimate card number. 
+  
+  # Usage <a id="use"></a>
 
-First, run the development server:
+  [Application Link](https://musicify-175f0766b215.herokuapp.com/)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun run dev
-```
+  Users may add their own songs to the library granted they have the mp3 file and an image to set as cover art. Otherwise you may like/play songs added by other users
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+  # Images
+  
+<img src="./public/images/Musicify.png">
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+<img src="./public/images/Liked-Page.png">
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+  # Contribution Guidelines <a id="con"></a>
+  None
+  
+  # Test Instructions <a id="test"></a>
+  N/A
 
-## Learn More
+  # Frameworks/Resources Used <a id="frame"></a>
+  - React.js
+  - NEXT.js
+  - Supabase
+  - PostgreSQL
+  - Stripe
+  - Tailwind CSS
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+  
+  # Questions/Contact <a id="ques"></a>
+  <a href="https://github.com/Dannymak1993">Danny Mak</a>
+  <br>
+  
+  # License
+  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) https://opensource.org/licenses/MIT 
+  <a id="license"></a>
+  

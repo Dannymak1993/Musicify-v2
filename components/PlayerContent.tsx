@@ -16,7 +16,6 @@ import Slider from "./Slider";
 interface PlayerContentProps {
   song: Song;
   songUrl: string;
-  duration: number;
 }
 
 const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {

@@ -1,69 +1,81 @@
-import { NextApiRequest, NextApiResponse } from 'next';
 import Stripe from 'stripe';
+import { NextResponse } from 'next/server';
+import { headers } from 'next/headers';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-  apiVersion: '2023-08-16', // You can adjust the API version if needed
-});
+import { stripe } from '@/libs/stripe';
+import {
+  upsertProductRecord,
+  upsertPriceRecord,
+  manageSubscriptionStatusChange
+} from '@/libs/supabaseAdmin';
 
-export default async function webhooksRoute(
-  req: NextApiRequest,
-  res: NextApiResponse
+const relevantEvents = new Set([
+  'product.created',
+  'product.updated',
+  'price.created',
+  'price.updated',
+  'checkout.session.completed',
+  'customer.subscription.created',
+  'customer.subscription.updated',
+  'customer.subscription.deleted'
+]);
+
+export async function POST(
+  request: Request
 ) {
-  const body = req.body;
-  const sig = req.headers['stripe-signature'] as string;
-
-  const webhookSecret =
-    process.env.STRIPE_WEBHOOK_SECRET_LIVE ??
-    process.env.STRIPE_WEBHOOK_SECRET;
-
-  let event: Stripe.Event;
-
   try {
+    const body = await request.text()
+    const sig = headers().get('Stripe-Signature');
+
+    const webhookSecret =
+      process.env.STRIPE_WEBHOOK_SECRET_LIVE ??
+      process.env.STRIPE_WEBHOOK_SECRET;
+    let event: Stripe.Event;
+
     if (!sig || !webhookSecret) throw new Error('Webhook secret not found');
+
     event = stripe.webhooks.constructEvent(body, sig, webhookSecret);
-  } catch (err) {
-    console.log(`❌ Error message: ${err.message}`);
-    return res.status(400).json({ error: `Webhook Error: ${err.message}` });
-  }
 
-  const relevantEvents = new Set([
-    'product.created',
-    'product.updated',
-    'price.created',
-    'price.updated',
-    'checkout.session.completed',
-    'customer.subscription.created',
-    'customer.subscription.updated',
-    'customer.subscription.deleted',
-  ]);
-
-  if (relevantEvents.has(event.type)) {
-    try {
+    if (relevantEvents.has(event.type)) {
       switch (event.type) {
         case 'product.created':
         case 'product.updated':
-          // Handle product events
+          await upsertProductRecord(event.data.object as Stripe.Product);
           break;
         case 'price.created':
         case 'price.updated':
-          // Handle price events
+          await upsertPriceRecord(event.data.object as Stripe.Price);
           break;
         case 'customer.subscription.created':
         case 'customer.subscription.updated':
         case 'customer.subscription.deleted':
-          // Handle subscription events
+          const subscription = event.data.object as Stripe.Subscription;
+          await manageSubscriptionStatusChange(
+            subscription.id,
+            subscription.customer as string,
+            event.type === 'customer.subscription.created'
+          );
           break;
         case 'checkout.session.completed':
-          // Handle checkout session completed
+          const checkoutSession = event.data
+            .object as Stripe.Checkout.Session;
+          if (checkoutSession.mode === 'subscription') {
+            const subscriptionId = checkoutSession.subscription;
+            await manageSubscriptionStatusChange(
+              subscriptionId as string,
+              checkoutSession.customer as string,
+              true
+            );
+          }
           break;
         default:
           throw new Error('Unhandled relevant event!');
       }
-    } catch (error) {
-      console.log(error);
-      return res.status(400).json({ error: 'Webhook handler failed. View logs.' });
     }
-  }
 
-  return res.status(200).json({ received: true });
-}
+    return NextResponse.json({ received: true }, { status: 200 });
+  } catch (error) {
+    console.log(error);
+    return new NextResponse('Webhook error: "Webhook handler failed. View logs."', { status: 400 });
+  }
+};

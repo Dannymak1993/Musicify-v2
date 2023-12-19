@@ -17,7 +17,7 @@
   No installation required; visit the website, create an account and subscribe to the musicify premium plan to begin adding songs or listening to the music available. 
   <br>
   <br>
-  NOTE: please use a real email to signup as a link will be sent that requires verification. When subscribing to musicify's premium plan for $9 please use the card number 4242 4242 4242 4242 and fill out the remaining fields with fake info as that will allow you to bypass putting in a legitimate card number. 
+  NOTE: please use a real email to signup as a link will be sent to that email which requires verification. When subscribing to musicify's %9 premium plan PLEASE use the card number 4242 4242 4242 4242 and fill out the remaining fields with fake info as that will allow you to bypass putting in a legitimate card number. 
   
   # Usage <a id="use"></a>
 

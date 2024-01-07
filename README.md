@@ -11,7 +11,7 @@
    - [License](#license) 
   
   # Description <a id="desc"></a>
-  Musicify is a spotify-esque application built with Next.Js, React.js, Tailwind CSS, Stripe integration for payments and Supabase/PostgreSQL as the database. 
+  Musicify is my verison of a spotify clone built with Next.Js, React.js, Tailwind CSS, Stripe integration for payments and Supabase/PostgreSQL as the database. 
   
   # Installation <a id="ins"></a>
   No installation required; visit the website, create an account and subscribe to the musicify premium plan to begin adding songs or listening to the music available. 
